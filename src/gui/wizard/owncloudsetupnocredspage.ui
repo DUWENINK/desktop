@@ -63,7 +63,7 @@
      <item>
       <widget class="QLabel" name="installLink">
        <property name="text">
-        <string>&lt;a href=&quot;https://docs.nextcloud.com/server/15/admin_manual/installation/index.html#installation&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Host your own server&lt;/span&gt;&lt;/a&gt;</string>
+        <string>&lt;a href=&quot;http://www.astute-tec.com&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Copyright © 2018 南京机敏软件科技有限公司&lt;/span&gt;&lt;/a&gt;</string>
        </property>
        <property name="openExternalLinks">
         <bool>true</bool>
@@ -130,6 +130,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="createAccountButton">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="minimumSize">
         <size>
          <width>150</width>
@@ -207,7 +210,7 @@
     </spacer>
    </item>
    <item row="2" column="0">
-    <widget class="OCC::SlideShow" name="slideShow">
+    <widget class="OCC::SlideShow" name="slideShow" native="true">
      <property name="font">
       <font>
        <pointsize>12</pointsize>
@@ -300,8 +303,11 @@
                 <verstretch>0</verstretch>
                </sizepolicy>
               </property>
+              <property name="text">
+               <string>http://</string>
+              </property>
               <property name="placeholderText">
-               <string>https://...</string>
+               <string>http://...</string>
               </property>
              </widget>
             </item>

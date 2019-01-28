@@ -74,7 +74,7 @@ OwncloudSetupPage::OwncloudSetupPage(QWidget *parent)
     connect(_ui.leUrl, &QLineEdit::editingFinished, this, &OwncloudSetupPage::slotUrlEditFinished);
 
     addCertDial = new AddCertificateDialog(this);
-
+    _ui.createAccountButton->hide();
 #ifdef WITH_PROVIDERS
     connect(_ui.loginButton, &QPushButton::clicked, this, &OwncloudSetupPage::slotLogin);
     connect(_ui.createAccountButton, &QPushButton::clicked, this, &OwncloudSetupPage::slotGotoProviderList);
