@@ -133,17 +133,18 @@ void GeneralSettings::slotUpdateInfo()
     if (ConfigFile().skipUpdateCheck()) {
         updater = nullptr; // don't show update info if updates are disabled
     }
-
-    if (updater) {
-        connect(updater, &OCUpdater::downloadStateChanged, this, &GeneralSettings::slotUpdateInfo, Qt::UniqueConnection);
-        connect(_ui->restartButton, &QAbstractButton::clicked, updater, &OCUpdater::slotStartInstaller, Qt::UniqueConnection);
-        connect(_ui->restartButton, &QAbstractButton::clicked, qApp, &QApplication::quit, Qt::UniqueConnection);
-        _ui->updateStateLabel->setText(updater->statusString());
-        _ui->restartButton->setVisible(updater->downloadState() == OCUpdater::DownloadComplete);
-    } else {
+//20190129 删除updategroupbox页面布局
+_ui->updatesGroupBox->setVisible(false);
+    //if (updater) {
+     //   connect(updater, &OCUpdater::downloadStateChanged, this, &GeneralSettings::slotUpdateInfo, Qt::UniqueConnection);
+      //  connect(_ui->restartButton, &QAbstractButton::clicked, updater, &OCUpdater::slotStartInstaller, Qt::UniqueConnection);
+      //  connect(_ui->restartButton, &QAbstractButton::clicked, qApp, &QApplication::quit, Qt::UniqueConnection);
+    //    _ui->updateStateLabel->setText(updater->statusString());
+    //    _ui->restartButton->setVisible(updater->downloadState() == OCUpdater::DownloadComplete);
+   // } else {
         // can't have those infos from sparkle currently
-        _ui->updatesGroupBox->setVisible(false);
-    }
+     //   _ui->updatesGroupBox->setVisible(false);
+    //}
 }
 
 void GeneralSettings::saveMiscSettings()
