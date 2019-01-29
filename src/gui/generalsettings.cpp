@@ -61,7 +61,9 @@ GeneralSettings::GeneralSettings(QWidget *parent)
 
     // About legal notice
     connect(_ui->legalNoticeButton, &QPushButton::clicked, this, &GeneralSettings::slotShowLegalNotice);
-
+	//hide button
+    _ui->legalNoticeButton->setVisible(false);
+	
     loadMiscSettings();
     slotUpdateInfo();
 

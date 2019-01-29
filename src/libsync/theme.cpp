@@ -342,7 +342,7 @@ QString Theme::about() const
     devString += tr("<p>This release was supplied by %1</p>")
               .arg(APPLICATION_VENDOR);
 
-    devString += gitSHA1();
+    //devString += gitSHA1();
 
     return devString;
 }
