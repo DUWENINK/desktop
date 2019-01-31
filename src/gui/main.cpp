@@ -20,7 +20,8 @@
 #include <sys/time.h>
 #include <sys/resource.h>
 #endif
-
+#include <windows.h>
+#include <dbghelp.h>
 #include "application.h"
 #include "theme.h"
 #include "common/utility.h"
@@ -44,10 +45,53 @@ void warnSystray()
             .arg(Theme::instance()->appNameGUI()));
 }
 
+void CreateDumpFile(LPCWSTR lpstrDumpFilePathName, EXCEPTION_POINTERS *pException)
+{
+	// 创建Dump文件
+	//
+	HANDLE hDumpFile = CreateFile(lpstrDumpFilePathName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+
+	// Dump信息
+	//
+	MINIDUMP_EXCEPTION_INFORMATION dumpInfo;
+	dumpInfo.ExceptionPointers = pException;
+	dumpInfo.ThreadId = GetCurrentThreadId();
+	dumpInfo.ClientPointers = TRUE;
+
+	// 写入Dump文件内容
+	//
+	MiniDumpWriteDump(GetCurrentProcess(), GetCurrentProcessId(), hDumpFile, MiniDumpNormal, &dumpInfo, NULL, NULL);
+
+	CloseHandle(hDumpFile);
+}
+static CRITICAL_SECTION  g_gc_mutex;
+
+long ApplicationCrashHandler(EXCEPTION_POINTERS *pException)
+{
+	WCHAR   buf[MAX_PATH] = { 0 };
+	WCHAR   path[MAX_PATH] = {0};
+
+	EnterCriticalSection(&g_gc_mutex);
+	static int  Index = 0;
+	if (0 == Index)
+	{
+		Index = 1;
+
+		GetModuleFileName(NULL, path, sizeof(path));
+		//_snwprintf(buf, sizeof(buf)-1, L"%s-crash.%u.dmp", path, GetCurrentProcessId());
+		_snwprintf(buf, sizeof(buf)-1, L"D:\\SourceCode\\GIT_DUWENINK\\desktop\\build\\1.dmp");
+		CreateDumpFile(buf, pException);
+	}
+	LeaveCriticalSection(&g_gc_mutex);
+	return EXCEPTION_EXECUTE_HANDLER;
+}
 int main(int argc, char **argv)
 {
     Q_INIT_RESOURCE(client);
+printf("test\n");
+SetUnhandledExceptionFilter((LPTOP_LEVEL_EXCEPTION_FILTER)ApplicationCrashHandler);
 
+*((char *)0) = 1;
     // OpenSSL 1.1.0: No explicit initialisation or de-initialisation is necessary.
 
 #ifdef Q_OS_WIN
